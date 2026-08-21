@@ -2,7 +2,7 @@ export const site = {
   name: "João Paulo Lomba",
   role: "AI Engineer & Full Stack Developer",
   location: "Cachoeira, BA — 100% remoto",
-  email: "joaolombadev@gmail.com",
+  email: "joaolombaeducadventista@gmail.com",
   github: "https://github.com/joaolombabr",
   linkedin: "https://www.linkedin.com/in/joaolombadev/",
   heroHeadline: "Transformo processos manuais em sistemas autônomos com IA.",

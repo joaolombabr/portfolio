@@ -3,18 +3,20 @@ import type { CaseStudy, MiniProject } from "@/types/project";
 export const caseStudies: CaseStudy[] = [
   {
     slug: "whatsapp-n8n-loja-virtual",
-    name: "Integração WhatsApp–API–n8n para Loja Virtual",
-    tagline: "Do pedido no WhatsApp à notificação de status, sem intervenção manual.",
-    status: "em finalização",
+    name: "Yasmin — Agente de IA para Pedidos via WhatsApp",
+    tagline: "Um agente de IA que cria pedidos reais, com guardas de código para conter as próprias falhas do modelo.",
+    status: "produção",
     problem:
-      "Uma loja virtual precisava atender pedidos via WhatsApp sem depender de um atendente lendo e digitando cada pedido manualmente em um sistema à parte — processo lento e sujeito a erro humano.",
+      "Uma loja virtual precisava atender pedidos via WhatsApp sem depender de um atendente lendo e digitando cada pedido manualmente em um sistema à parte — processo lento e sujeito a erro humano. O desafio real não era só conectar APIs: era manter um agente de IA com tool-calling confiável o suficiente para lidar com dinheiro e pedidos de clientes reais, incluindo os próprios modos de falha do modelo de linguagem.",
     solution:
-      "Arquitetei um fluxo ponta a ponta em n8n que recebe a mensagem via WhatsApp API, orquestra chamadas a APIs REST da loja, normaliza e valida o payload JSON entre os serviços, cria o pedido no sistema de origem e devolve notificações de status ao cliente pelo mesmo canal.",
-    stack: ["n8n", "APIs REST", "WhatsApp API", "JSON", "Webhooks", "Redis"],
+      "Arquitetei um agente de IA (OpenAI + orquestração via n8n) que interpreta a conversa no WhatsApp, decide quando consultar cardápio, montar itens/combos/extras e criar o pedido via API REST de terceiros, com memória de curto prazo em Redis e notificação de status pelo mesmo canal. A parte mais difícil não foi a integração — foi conter, com validação determinística em código, as classes de erro que só aparecem em produção: uma investigação de causa-raiz revelou que o modelo às vezes 'inventava' IDs de produto porque a API do fornecedor expõe, sem documentar, um campo interno com o mesmo formato numérico dos IDs reais. Em vez de tentar resolver isso só no texto do prompt (o que já havia falhado), implementei guardas de código que validam cada pedido contra o cardápio real antes de qualquer chamada externa — incluindo uma guarda que exige confirmação real de clique do cliente antes de aceitar a escolha de um item, para eliminar um caso específico de alucinação do modelo.",
+    stack: ["n8n", "OpenAI (Agentes de IA)", "APIs REST", "WhatsApp API", "Redis", "PostgreSQL", "JSON", "Webhooks"],
     impact: [
-      "Elimina o registro manual de pedidos recebidos por WhatsApp",
-      "Fluxo único cobre pedido → validação → criação → notificação de status",
-      "Desenhado para reuso em outros catálogos/lojas com a mesma arquitetura",
+      "Root-cause de uma falha silenciosa que existia havia meses em produção (uma ramificação de fluxo nunca conectada) — encontrada por auditoria sistemática, não por tentativa e erro",
+      "Engenharia reversa de uma regra de precificação não documentada da API de terceiros, para montar pedidos complexos (combos) corretamente sem suporte oficial",
+      "Guardas determinísticas de código eliminaram uma classe inteira de alucinação do modelo (IDs inventados, escolhas não confirmadas) — sem precisar de mais uma iteração de prompt",
+      "Bateria própria de testes de falha real (credencial inválida, timeout de rede) em cópias isoladas do fluxo, para provar degradação graciosa sem arriscar o atendimento real",
+      "Em produção, processando pedidos reais de clientes via WhatsApp",
     ],
     featured: true,
   },

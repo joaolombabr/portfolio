@@ -61,6 +61,24 @@ export const caseStudies: CaseStudy[] = [
 
 export const miniProjects: MiniProject[] = [
   {
+    slug: "llm-tool-guard",
+    name: "llm-tool-guard",
+    description:
+      "Serviço FastAPI que fica entre o agente de IA e a ação irreversível: roda uma cadeia de guardas determinísticas e só encaminha se todas passarem. 44 testes, CI e Docker.",
+    stack: ["Python", "FastAPI", "Pytest", "Docker", "GitHub Actions"],
+    repoUrl: "https://github.com/joaolombabr/llm-tool-guard",
+    featured: false,
+  },
+  {
+    slug: "n8n-production-patterns",
+    name: "n8n production patterns",
+    description:
+      "Treze padrões para rodar agentes de IA em n8n contra dinheiro real, cada um vindo de um incidente de produção — incluindo o que a documentação do n8n não conta.",
+    stack: ["n8n", "Agentes de IA", "APIs REST", "Redis"],
+    repoUrl: "https://github.com/joaolombabr/n8n-production-patterns",
+    featured: false,
+  },
+  {
     slug: "atend-ia",
     name: "Atend IA",
     description:

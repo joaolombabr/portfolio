@@ -1,13 +1,13 @@
 @import "tailwindcss";
 
 :root {
-  --background: #0a0a0f;
-  --background-elevated: #111116;
-  --foreground: #e7e7ee;
-  --foreground-muted: #9a9aa8;
-  --border: #22222c;
-  --accent-green: #39ff9c;
-  --accent-blue: #4fa8ff;
+  --background: #070707;
+  --background-elevated: #0e0e0e;
+  --foreground: #f4f4f4;
+  --foreground-muted: #9b9b9b;
+  --border: #1f1f1f;
+  --accent: #ff6a00;
+  --accent-muted: #ffa05c;
 }
 
 @theme inline {
@@ -16,8 +16,8 @@
   --color-foreground: var(--foreground);
   --color-foreground-muted: var(--foreground-muted);
   --color-border: var(--border);
-  --color-accent-green: var(--accent-green);
-  --color-accent-blue: var(--accent-blue);
+  --color-accent: var(--accent);
+  --color-accent-muted: var(--accent-muted);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
@@ -33,16 +33,33 @@ body {
 }
 
 ::selection {
-  background: color-mix(in srgb, var(--accent-green) 30%, transparent);
+  background: color-mix(in srgb, var(--accent) 35%, transparent);
   color: var(--foreground);
 }
 
-.bg-grid {
-  background-image:
-    linear-gradient(to right, color-mix(in srgb, var(--foreground) 6%, transparent) 1px, transparent 1px),
-    linear-gradient(to bottom, color-mix(in srgb, var(--foreground) 6%, transparent) 1px, transparent 1px);
-  background-size: 40px 40px;
-  mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 40%, transparent 100%);
+/* Warm halo behind the hero, standing in for the grid the old design used.
+   Deliberately low-opacity so the headline stays the brightest thing on screen. */
+.bg-halo {
+  background: radial-gradient(
+    ellipse 60% 55% at 50% 0%,
+    color-mix(in srgb, var(--accent) 20%, transparent) 0%,
+    transparent 70%
+  );
+}
+
+/* Uppercase tracked label that sits above every section title. */
+.eyebrow {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+/* The signature move: the second half of a headline set in orange italic. */
+.accent-italic {
+  font-style: italic;
+  color: var(--accent);
 }
 
 @keyframes fade-in-up {
@@ -58,4 +75,14 @@ body {
 
 .animate-fade-in-up {
   animation: fade-in-up 0.6s ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .animate-fade-in-up {
+    animation: none;
+  }
 }

@@ -5,13 +5,13 @@ import { stackCategories } from "@/content/stack";
 
 export function Stack() {
   return (
-    <section id="stack" className="border-b border-border py-20 sm:py-28">
+    <section id="stack" className="border-b border-border py-24 sm:py-32">
       <Container>
-        <SectionHeading eyebrow="./stack" title="Stack tecnológica" />
+        <SectionHeading eyebrow="Ferramentas" title="Stack tecnológica" />
         <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
           {stackCategories.map((category) => (
-            <div key={category.label}>
-              <h3 className="font-mono text-sm text-accent-blue">
+            <div key={category.label} className="rounded-2xl border border-border bg-background-elevated p-6">
+              <h3 className="eyebrow">
                 {category.label}
               </h3>
               <div className="mt-3 flex flex-wrap gap-2">

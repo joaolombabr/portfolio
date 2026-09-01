@@ -3,38 +3,36 @@ import type { CaseStudy } from "@/types/project";
 
 export function ProjectCard({ project }: { project: CaseStudy }) {
   return (
-    <article className="rounded-lg border border-border bg-background-elevated p-6 transition-colors hover:border-accent-green/40 sm:p-8">
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <h3 className="text-xl font-semibold text-foreground">{project.name}</h3>
-        <span className="font-mono text-xs text-foreground-muted">
-          {project.status}
-        </span>
-      </div>
-      <p className="mt-2 text-accent-blue">{project.tagline}</p>
+    <article className="rounded-2xl border border-border bg-background-elevated p-6 transition-colors hover:border-accent/40 sm:p-9">
+      <span className="eyebrow">{project.status}</span>
+      <h3 className="mt-2 text-2xl font-semibold tracking-tight text-foreground">
+        {project.name}
+      </h3>
+      <p className="mt-3 max-w-2xl text-accent-muted">{project.tagline}</p>
 
-      <div className="mt-6 grid gap-6 sm:grid-cols-2">
+      <div className="mt-8 grid gap-8 sm:grid-cols-2">
         <div>
-          <h4 className="font-mono text-xs uppercase tracking-wide text-foreground-muted">
-            Problema
-          </h4>
-          <p className="mt-2 text-sm text-foreground">{project.problem}</p>
+          <h4 className="eyebrow">Problema</h4>
+          <p className="mt-3 text-sm leading-relaxed text-foreground-muted">
+            {project.problem}
+          </p>
         </div>
         <div>
-          <h4 className="font-mono text-xs uppercase tracking-wide text-foreground-muted">
-            Solução / Arquitetura
-          </h4>
-          <p className="mt-2 text-sm text-foreground">{project.solution}</p>
+          <h4 className="eyebrow">Solução / Arquitetura</h4>
+          <p className="mt-3 text-sm leading-relaxed text-foreground-muted">
+            {project.solution}
+          </p>
         </div>
       </div>
 
-      <div className="mt-6">
-        <h4 className="font-mono text-xs uppercase tracking-wide text-foreground-muted">
-          Impacto
-        </h4>
-        <ul className="mt-2 space-y-1">
+      <div className="mt-8 rounded-xl border border-border bg-background p-5">
+        <h4 className="eyebrow">Impacto</h4>
+        <ul className="mt-3 space-y-2">
           {project.impact.map((item) => (
-            <li key={item} className="flex gap-2 text-sm text-foreground">
-              <span className="text-accent-green">→</span>
+            <li key={item} className="flex gap-3 text-sm leading-relaxed text-foreground">
+              <span aria-hidden className="mt-0.5 shrink-0 text-accent">
+                &rarr;
+              </span>
               {item}
             </li>
           ))}
@@ -48,15 +46,18 @@ export function ProjectCard({ project }: { project: CaseStudy }) {
       </div>
 
       {project.repoUrl || project.liveUrl ? (
-        <div className="mt-6 flex gap-4 text-sm">
+        <div className="mt-8 flex flex-wrap gap-3">
           {project.repoUrl ? (
             <a
               href={project.repoUrl}
               target="_blank"
               rel="noreferrer"
-              className="text-accent-green hover:underline"
+              className="group inline-flex items-center gap-2 rounded-full border border-border px-5 py-2.5 text-sm text-foreground transition-colors hover:border-accent hover:text-accent"
             >
-              Repositório →
+              Repositório
+              <span aria-hidden className="transition-transform group-hover:translate-x-0.5">
+                &#8599;
+              </span>
             </a>
           ) : null}
           {project.liveUrl ? (
@@ -64,9 +65,12 @@ export function ProjectCard({ project }: { project: CaseStudy }) {
               href={project.liveUrl}
               target="_blank"
               rel="noreferrer"
-              className="text-accent-blue hover:underline"
+              className="group inline-flex items-center gap-2 rounded-full border border-border px-5 py-2.5 text-sm text-foreground transition-colors hover:border-accent hover:text-accent"
             >
-              Demo →
+              Ver online
+              <span aria-hidden className="transition-transform group-hover:translate-x-0.5">
+                &#8599;
+              </span>
             </a>
           ) : null}
         </div>

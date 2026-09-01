@@ -1,6 +1,6 @@
 # Portfolio — João Paulo Lomba
 
-**[portfolio-repo-beta.vercel.app](https://portfolio-repo-beta.vercel.app)** · AI Engineer &
+**[joaolomba.vercel.app](https://joaolomba.vercel.app)** · AI Engineer &
 Full Stack Developer
 
 Portfólio pessoal em Next.js (App Router) + TypeScript + Tailwind CSS v4. Dark mode fixo,

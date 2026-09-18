@@ -2,26 +2,24 @@ import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Badge } from "@/components/ui/Badge";
 import { ProjectCard } from "@/components/sections/ProjectCard";
-import { caseStudies, miniProjects } from "@/content/projects";
+import type { Content } from "@/types/content";
 
-export function Projects() {
+export function Projects({ content }: { content: Content }) {
+  const { ui, caseStudies, miniProjects } = content;
+
   return (
-    <section id="projetos" className="border-b border-border py-24 sm:py-32">
+    <section id="work" className="border-b border-border py-24 sm:py-32">
       <Container>
-        <SectionHeading
-          eyebrow="Portfólio"
-          title="Estudos de caso técnicos"
-          description="Problema de negócio, decisão de arquitetura e o que quebrou em produção — não só uma lista de tecnologias."
-        />
+        <SectionHeading {...ui.work} />
 
         <div className="space-y-6">
           {caseStudies.map((project) => (
-            <ProjectCard key={project.slug} project={project} />
+            <ProjectCard key={project.slug} project={project} ui={ui} />
           ))}
         </div>
 
         <div className="mt-20">
-          <p className="eyebrow">Outros projetos</p>
+          <p className="eyebrow">{ui.otherProjects}</p>
           <div className="mt-6 grid gap-4 sm:grid-cols-2">
             {miniProjects.map((project) => (
               <a

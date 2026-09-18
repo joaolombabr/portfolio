@@ -1,19 +1,19 @@
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Badge } from "@/components/ui/Badge";
-import { stackCategories } from "@/content/stack";
+import type { Content } from "@/types/content";
 
-export function Stack() {
+export function Stack({ content }: { content: Content }) {
+  const { ui, stack } = content;
+
   return (
     <section id="stack" className="border-b border-border py-24 sm:py-32">
       <Container>
-        <SectionHeading eyebrow="Ferramentas" title="Stack tecnológica" />
-        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-          {stackCategories.map((category) => (
+        <SectionHeading {...ui.stack} />
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {stack.map((category) => (
             <div key={category.label} className="rounded-2xl border border-border bg-background-elevated p-6">
-              <h3 className="eyebrow">
-                {category.label}
-              </h3>
+              <h3 className="eyebrow">{category.label}</h3>
               <div className="mt-3 flex flex-wrap gap-2">
                 {category.items.map((item) => (
                   <Badge key={item}>{item}</Badge>

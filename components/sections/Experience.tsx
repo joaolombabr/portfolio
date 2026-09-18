@@ -1,43 +1,44 @@
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Badge } from "@/components/ui/Badge";
-import { roles } from "@/content/experience";
-import { education } from "@/content/education";
+import type { Content } from "@/types/content";
 
-export function Experience() {
+export function Experience({ content }: { content: Content }) {
+  const { ui, roles, education } = content;
+
   return (
-    <section id="experiencia" className="border-b border-border py-24 sm:py-32">
+    <section id="experience" className="border-b border-border py-24 sm:py-32">
       <Container>
-        <SectionHeading
-          eyebrow="Trajetória"
-          title="Experiência"
-          description="Ação → como → resultado — não uma lista do que eu era responsável por fazer."
-        />
+        <SectionHeading {...ui.experience} />
 
-        <div className="space-y-10">
+        <div className="space-y-12">
           {roles.map((role) => (
-            <div key={role.company}>
-              <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
-                <h3 className="text-lg font-semibold text-foreground">
-                  {role.role} <span className="text-accent-muted">— {role.company}</span>
-                </h3>
-                <span className="font-mono text-xs text-foreground-muted">{role.period}</span>
+            <div key={role.company} className="grid gap-4 sm:grid-cols-[11rem_1fr] sm:gap-8">
+              <div>
+                <p className="font-mono text-xs text-foreground-muted">{role.period}</p>
+                <p className="mt-1 font-semibold text-accent-muted">{role.company}</p>
               </div>
-              <p className="text-sm text-foreground-muted">{role.location}</p>
 
-              <ul className="mt-4 space-y-2">
-                {role.bullets.map((bullet) => (
-                  <li key={bullet} className="flex gap-2 text-sm text-foreground">
-                    <span className="mt-0.5 text-accent">→</span>
-                    {bullet}
-                  </li>
-                ))}
-              </ul>
+              <div>
+                <h3 className="text-lg font-semibold text-foreground">{role.role}</h3>
+                <p className="text-sm text-foreground-muted">{role.location}</p>
 
-              <div className="mt-4 flex flex-wrap gap-2">
-                {role.stack.map((tech) => (
-                  <Badge key={tech}>{tech}</Badge>
-                ))}
+                <ul className="mt-4 space-y-2">
+                  {role.bullets.map((bullet) => (
+                    <li key={bullet} className="flex gap-2 text-sm leading-relaxed text-foreground">
+                      <span aria-hidden className="mt-0.5 text-accent">
+                        &rarr;
+                      </span>
+                      {bullet}
+                    </li>
+                  ))}
+                </ul>
+
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {role.stack.map((tech) => (
+                    <Badge key={tech}>{tech}</Badge>
+                  ))}
+                </div>
               </div>
             </div>
           ))}
@@ -45,17 +46,21 @@ export function Experience() {
 
         <div className="mt-14 grid gap-8 border-t border-border pt-10 sm:grid-cols-2">
           <div>
-            <h3 className="eyebrow">Formação</h3>
+            <h3 className="eyebrow">{ui.education}</h3>
             <p className="mt-2 text-sm text-foreground">
               {education.degree} — {education.institution}
             </p>
             <p className="text-sm text-foreground-muted">{education.period}</p>
-            <p className="mt-4 text-sm text-foreground-muted">
-              {education.languages.join(" · ")}
-            </p>
+            <ul className="mt-4 space-y-1">
+              {education.languages.map((language) => (
+                <li key={language} className="text-sm text-foreground-muted">
+                  {language}
+                </li>
+              ))}
+            </ul>
           </div>
           <div>
-            <h3 className="eyebrow">Certificações</h3>
+            <h3 className="eyebrow">{ui.certifications}</h3>
             <ul className="mt-2 space-y-1">
               {education.certifications.map((cert) => (
                 <li key={cert} className="text-sm text-foreground-muted">

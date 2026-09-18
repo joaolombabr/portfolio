@@ -1,18 +1,18 @@
 # Portfolio — João Paulo Lomba
 
-**[joaolomba.vercel.app](https://joaolomba.vercel.app)** · AI Engineer &
-Full Stack Developer
+**[joaolomba.vercel.app](https://joaolomba.vercel.app)** · AI Automation Engineer
 
-Portfólio pessoal em Next.js (App Router) + TypeScript + Tailwind CSS v4. Dark mode fixo,
-tipografia monoespaçada (Geist Mono) para métricas e código, acentos em verde-neon e
-azul-elétrico.
+Portfólio pessoal em Next.js (App Router) + TypeScript + Tailwind CSS v4, bilíngue: inglês na raiz
+(`/`), português em `/pt`. Dark mode fixo, preto com um acento laranja, Geist Mono para números
+e nomes de repositório.
 
-O conteúdo é orientado a estudos de caso: problema de negócio, decisão de arquitetura e
-resultado — não uma lista de tecnologias.
+O conteúdo é orientado a estudos de caso — problema de negócio, decisão de arquitetura e o que
+quebrou em produção — e a página segue a ordem em que um recrutador lê: afirmação e números de
+prova, a sequência incidente → padrão → ferramenta em uma tela, depois a profundidade.
 
 ## Stack
 
-Next.js (App Router) · React · TypeScript · Tailwind CSS v4 · lucide-react · deploy na Vercel
+Next.js (App Router) · React · TypeScript · Tailwind CSS v4 · `next/og` · deploy na Vercel
 
 ## Rodando localmente
 
@@ -21,7 +21,7 @@ npm install
 npm run dev
 ```
 
-Abra <http://localhost:3000>.
+Abra <http://localhost:3000> (inglês) e <http://localhost:3000/pt> (português).
 
 ```bash
 npm run build   # build de produção
@@ -32,41 +32,50 @@ npm run lint    # ESLint
 
 ```
 app/
-  layout.tsx          # shell raiz: fontes, metadata, Header/Footer
-  page.tsx            # composição das seções da home
+  (en)/               # layout raiz em inglês — <html lang="en">, rota /
+    layout.tsx
+    page.tsx
+    opengraph-image.tsx
+  (pt)/               # layout raiz em português — <html lang="pt-BR">, rota /pt
+    layout.tsx
+    pt/page.tsx
+    pt/opengraph-image.tsx
   globals.css         # design tokens (cores, fontes) via Tailwind v4 @theme
 
 components/
-  layout/             # Header, Footer — usados em todas as páginas
-  sections/           # Hero, Projects, ProjectCard, Stack, Cta — 1 por seção
+  HomePage.tsx        # compõe as seções na ordem da página, recebe o locale
+  layout/             # RootShell (html/body/fontes), Header, Footer
+  sections/           # Hero, Arc, Projects, ProjectCard, Principles, Experience, Stack, Cta
   ui/                 # primitivos: Container, Badge, SectionHeading
 
 content/
-  site.ts             # nome, headline, links de contato — fonte única de verdade
-  projects.ts         # estudos de caso (caseStudies) + projetos menores (miniProjects)
-  stack.ts            # stack tecnológica categorizada
-  experience.ts       # experiência profissional
-  education.ts        # formação
+  shared.ts           # nome, e-mail, links, URL — o que não muda com o idioma
+  index.ts            # getContent(locale)
+  en/ · pt/           # site, ui, projects, experience, stack — mesmo formato nos dois
 
 types/
-  project.ts          # tipos CaseStudy / MiniProject
+  content.ts          # Content, Site, Ui, Role, Principle… — o contrato dos dois idiomas
+  project.ts          # CaseStudy, MiniProject, ArcStep, Metric
 
 lib/
+  metadata.ts         # metadata por idioma (hreflang, OpenGraph) e JSON-LD Person
+  og.tsx              # imagem de preview dos links (LinkedIn, WhatsApp, job boards)
   utils.ts            # helper cn() (clsx + tailwind-merge)
 ```
 
 ## Convenções
 
-- **Conteúdo separado de apresentação.** Textos de projetos, stack e experiência vivem em
-  `content/*.ts`, tipados. Para adicionar um projeto, edite `content/projects.ts` — nunca os
-  componentes.
-- **Uma seção = um componente** em `components/sections/`, importado em `app/page.tsx` na ordem
-  em que aparece na página.
+- **Conteúdo separado de apresentação.** Todo texto vive em `content/en/` e `content/pt/`. Para
+  adicionar um projeto, edite `projects.ts` **nos dois idiomas** — nunca os componentes.
+- **O compilador guarda a tradução.** Os dois idiomas são tipados contra o mesmo `Content`; uma
+  seção criada em um e esquecida no outro quebra o build em vez de ir para o ar pela metade.
+- **Todo número é verificável.** Os números do hero (`site.proof`) e dos cards (`metrics`) têm
+  que existir num repositório público ou no CV. Se o repositório mudar, mude o número aqui.
+- **Uma seção = um componente** em `components/sections/`, composto em `components/HomePage.tsx`
+  na ordem em que aparece na página.
 - **Cores só via tokens** definidos em `app/globals.css` (`--background`, `--foreground`,
-  `--accent-green`, `--accent-blue`), nunca hex direto no componente.
-- **Tipos antes do conteúdo.** `CaseStudy` exige `problem`, `solution`, `stack` e `impact` — o
-  compilador recusa um estudo de caso incompleto, que é a garantia de que todo card tem a mesma
-  profundidade.
+  `--accent`, `--accent-muted`, `--border`), nunca hex direto no componente. A exceção é
+  `lib/og.tsx`: o gerador de imagem não lê CSS, então repete os hex dos tokens.
 
 ## Deploy
 
@@ -75,10 +84,9 @@ produção.
 
 ## Roadmap
 
-- Página de detalhe por estudo de caso (`app/projetos/[slug]/page.tsx`), quando os textos
-  crescerem além do que cabe no card da home.
-- OpenGraph image (`app/opengraph-image.tsx`) para preview dos links compartilhados no LinkedIn.
-- Versão em inglês do conteúdo, com troca de idioma.
+- Página de detalhe por estudo de caso (`app/(en)/work/[slug]/page.tsx` e o par em `/pt`), quando
+  os textos crescerem além do que cabe no card.
+- Link para o CV em PDF no hero e no contato — versão pública, sem telefone.
 
 ## Licença
 

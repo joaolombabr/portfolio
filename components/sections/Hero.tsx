@@ -1,4 +1,5 @@
 import { Container } from "@/components/ui/Container";
+import { shared } from "@/content/shared";
 import type { Content } from "@/types/content";
 
 export function Hero({ content }: { content: Content }) {
@@ -50,6 +51,14 @@ export function Hero({ content }: { content: Content }) {
             className="inline-flex items-center rounded-full border border-border bg-background-elevated px-6 py-3 text-sm font-medium text-foreground transition-colors hover:border-accent hover:text-accent"
           >
             {ui.heroSecondary}
+          </a>
+          <a
+            href={shared.resume[content.locale]}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center rounded-full border border-border bg-background-elevated px-6 py-3 text-sm font-medium text-foreground transition-colors hover:border-accent hover:text-accent"
+          >
+            {ui.resume}
           </a>
         </div>
 

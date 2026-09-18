@@ -56,6 +56,8 @@ export interface Ui {
   switchLocale: { label: string; ariaLabel: string };
   heroPrimary: string;
   heroSecondary: string;
+  /** Label of the résumé download; the file is shared.resume[locale]. */
+  resume: string;
   arc: Heading;
   work: Heading;
   otherProjects: string;

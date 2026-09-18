@@ -61,6 +61,9 @@ lib/
   metadata.ts         # metadata por idioma (hreflang, OpenGraph) e JSON-LD Person
   og.tsx              # imagem de preview dos links (LinkedIn, WhatsApp, job boards)
   utils.ts            # helper cn() (clsx + tailwind-merge)
+
+cv/                   # fonte HTML dos CVs públicos (sem telefone) — ver cv/README.md
+public/               # os PDFs gerados, linkados no hero e no contato
 ```
 
 ## Convenções
@@ -86,7 +89,6 @@ produção.
 
 - Página de detalhe por estudo de caso (`app/(en)/work/[slug]/page.tsx` e o par em `/pt`), quando
   os textos crescerem além do que cabe no card.
-- Link para o CV em PDF no hero e no contato — versão pública, sem telefone.
 
 ## Licença
 

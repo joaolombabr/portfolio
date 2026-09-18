@@ -5,6 +5,7 @@ export const ui: Ui = {
   switchLocale: { label: "PT", ariaLabel: "Ler em português" },
   heroPrimary: "See the work",
   heroSecondary: "Let's talk",
+  resume: "Résumé (PDF)",
   arc: {
     eyebrow: "The through-line",
     title: "Incident → pattern → tool",

@@ -3,7 +3,7 @@ import { shared } from "@/content/shared";
 import type { Content } from "@/types/content";
 
 export function Cta({ content }: { content: Content }) {
-  const { contact } = content.ui;
+  const { contact, resume } = content.ui;
 
   return (
     <section id="contact" className="py-24 sm:py-32">
@@ -35,6 +35,14 @@ export function Cta({ content }: { content: Content }) {
                 className="inline-flex items-center rounded-full bg-accent px-6 py-3 text-sm font-medium text-background transition-transform hover:-translate-y-0.5"
               >
                 {contact.email}
+              </a>
+              <a
+                href={shared.resume[content.locale]}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center rounded-full border border-border px-6 py-3 text-sm font-medium text-foreground transition-colors hover:border-accent hover:text-accent"
+              >
+                {resume}
               </a>
               <a
                 href={shared.linkedin}

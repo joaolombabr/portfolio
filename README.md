@@ -3,8 +3,12 @@
 **[joaolomba.vercel.app](https://joaolomba.vercel.app)** · AI Automation Engineer
 
 Portfólio pessoal em Next.js (App Router) + TypeScript + Tailwind CSS v4, bilíngue: inglês na raiz
-(`/`), português em `/pt`. Dark mode fixo, preto com um acento laranja, Geist Mono para números
-e nomes de repositório.
+(`/`), português em `/pt`. Tema claro: fundo branco com grão sutil, tinta azul-marinho e um único
+acento azul-claro. Unbounded (display) nos títulos, Geist no texto, Geist Mono para nomes de repositório.
+
+Movimento: formas vítreas que flutuam e seguem o cursor no hero, um marquee infinito de skills com
+logos e um brilho que atravessa cada pill, menu em tela cheia, revelação ao rolar e cursor em anel —
+tudo em CSS ou em componentes client pequenos, e desligado com `prefers-reduced-motion`.
 
 O conteúdo é orientado a estudos de caso — problema de negócio, decisão de arquitetura e o que
 quebrou em produção — e a página segue a ordem em que um recrutador lê: afirmação e números de
@@ -12,7 +16,7 @@ prova, a sequência incidente → padrão → ferramenta em uma tela, depois a p
 
 ## Stack
 
-Next.js (App Router) · React · TypeScript · Tailwind CSS v4 · `next/og` · deploy na Vercel
+Next.js (App Router) · React · TypeScript · Tailwind CSS v4 · `simple-icons` · `next/og` · deploy na Vercel
 
 ## Rodando localmente
 
@@ -44,9 +48,10 @@ app/
 
 components/
   HomePage.tsx        # compõe as seções na ordem da página, recebe o locale
-  layout/             # RootShell (html/body/fontes), Header, Footer
+  layout/             # RootShell (html/body/fontes), Header, Menu (tela cheia), Footer
   sections/           # Hero, Arc, Projects, ProjectCard, Principles, Experience, Stack, Cta
-  ui/                 # primitivos: Container, Badge, SectionHeading
+  ui/                 # Container, Badge, SectionHeading, SkillPill, Marquee,
+                      # Blobs, Cursor, RevealObserver (os três últimos são client)
 
 content/
   shared.ts           # nome, e-mail, links, URL — o que não muda com o idioma
@@ -60,6 +65,7 @@ types/
 lib/
   metadata.ts         # metadata por idioma (hreflang, OpenGraph) e JSON-LD Person
   og.tsx              # imagem de preview dos links (LinkedIn, WhatsApp, job boards)
+  tech-icons.ts       # rótulo da stack → logo do simple-icons (por palavra-chave)
   utils.ts            # helper cn() (clsx + tailwind-merge)
 
 cv/                   # fonte HTML dos CVs públicos (sem telefone) — ver cv/README.md
@@ -77,7 +83,7 @@ public/               # os PDFs gerados, linkados no hero e no contato
 - **Uma seção = um componente** em `components/sections/`, composto em `components/HomePage.tsx`
   na ordem em que aparece na página.
 - **Cores só via tokens** definidos em `app/globals.css` (`--background`, `--foreground`,
-  `--accent`, `--accent-muted`, `--border`), nunca hex direto no componente. A exceção é
+  `--accent`, `--accent-strong`, `--accent-muted`, `--border`), nunca hex direto no componente. A exceção é
   `lib/og.tsx`: o gerador de imagem não lê CSS, então repete os hex dos tokens.
 
 ## Deploy

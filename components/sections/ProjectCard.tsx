@@ -4,17 +4,17 @@ import type { CaseStudy } from "@/types/project";
 
 export function ProjectCard({ project, ui }: { project: CaseStudy; ui: Ui }) {
   return (
-    <article className="rounded-2xl border border-border bg-background-elevated p-6 transition-colors hover:border-accent/40 sm:p-9">
+    <article className="reveal rounded-3xl border border-border bg-background-elevated p-6 card-lift sm:p-9">
       <span className="eyebrow inline-flex items-center gap-2">
         {project.status === "production" ? (
           <span className="size-1.5 rounded-full bg-accent" aria-hidden />
         ) : null}
         {ui.status[project.status]}
       </span>
-      <h3 className="mt-2 text-2xl font-semibold tracking-tight text-foreground">
+      <h3 className="mt-3 font-display text-xl font-medium tracking-tight text-foreground sm:text-2xl">
         {project.name}
       </h3>
-      <p className="mt-3 max-w-2xl text-accent-muted">{project.tagline}</p>
+      <p className="mt-3 max-w-2xl text-accent-strong">{project.tagline}</p>
 
       {project.metrics?.length ? (
         <dl className="mt-8 grid grid-cols-1 gap-px overflow-hidden rounded-xl border border-border bg-border sm:grid-cols-3">
@@ -47,7 +47,7 @@ export function ProjectCard({ project, ui }: { project: CaseStudy; ui: Ui }) {
         <ul className="mt-3 space-y-2">
           {project.impact.map((item) => (
             <li key={item} className="flex gap-3 text-sm leading-relaxed text-foreground">
-              <span aria-hidden className="mt-0.5 shrink-0 text-accent">
+              <span aria-hidden className="mt-0.5 shrink-0 text-accent-strong">
                 &rarr;
               </span>
               {item}
@@ -58,9 +58,9 @@ export function ProjectCard({ project, ui }: { project: CaseStudy; ui: Ui }) {
 
       {project.deepDive?.length ? (
         <details className="group mt-4 rounded-xl border border-border">
-          <summary className="flex cursor-pointer list-none items-center justify-between gap-4 px-5 py-4 text-sm font-medium text-foreground transition-colors hover:text-accent">
+          <summary className="flex cursor-pointer list-none items-center justify-between gap-4 px-5 py-4 text-sm font-medium text-foreground transition-colors hover:text-accent-strong">
             {ui.card.readMore}
-            <span aria-hidden className="text-lg leading-none text-accent transition-transform group-open:rotate-45">
+            <span aria-hidden className="text-lg leading-none text-accent-strong transition-transform group-open:rotate-45">
               +
             </span>
           </summary>
@@ -87,7 +87,7 @@ export function ProjectCard({ project, ui }: { project: CaseStudy; ui: Ui }) {
               href={project.repoUrl}
               target="_blank"
               rel="noreferrer"
-              className="group inline-flex items-center gap-2 rounded-full border border-border px-5 py-2.5 text-sm text-foreground transition-colors hover:border-accent hover:text-accent"
+              className="group inline-flex items-center gap-2 rounded-full border border-border px-5 py-2.5 text-sm text-foreground transition-colors hover:border-accent hover:text-accent-strong"
             >
               {ui.card.repo}
               <span aria-hidden className="transition-transform group-hover:translate-x-0.5">
@@ -100,7 +100,7 @@ export function ProjectCard({ project, ui }: { project: CaseStudy; ui: Ui }) {
               href={project.liveUrl}
               target="_blank"
               rel="noreferrer"
-              className="group inline-flex items-center gap-2 rounded-full border border-border px-5 py-2.5 text-sm text-foreground transition-colors hover:border-accent hover:text-accent"
+              className="group inline-flex items-center gap-2 rounded-full border border-border px-5 py-2.5 text-sm text-foreground transition-colors hover:border-accent hover:text-accent-strong"
             >
               {ui.card.live}
               <span aria-hidden className="transition-transform group-hover:translate-x-0.5">

@@ -3,6 +3,8 @@ import type { Ui } from "@/types/content";
 export const ui: Ui = {
   nav: { work: "Projetos", principles: "Como trabalho", experience: "Experiência", stack: "Stack", contact: "Contato" },
   switchLocale: { label: "EN", ariaLabel: "Read in English" },
+  menu: { open: "Abrir menu", close: "Fechar menu" },
+  toolsBand: "Ferramentas que eu coloco em produção",
   heroPrimary: "Ver projetos",
   heroSecondary: "Falar comigo",
   resume: "Currículo (PDF)",

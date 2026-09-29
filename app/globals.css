@@ -1,13 +1,20 @@
 @import "tailwindcss";
 
+/*
+ * Light system: white paper, deep navy ink, one light-blue accent.
+ * --accent is the light blue used for fills, glows and buttons (navy text on top of it);
+ * --accent-strong is the same hue deepened until small text on white passes contrast.
+ */
 :root {
-  --background: #070707;
-  --background-elevated: #0e0e0e;
-  --foreground: #f4f4f4;
-  --foreground-muted: #9b9b9b;
-  --border: #1f1f1f;
-  --accent: #ff6a00;
-  --accent-muted: #ffa05c;
+  --background: #ffffff;
+  --background-elevated: #f5f9fd;
+  --foreground: #0b1a2c;
+  --foreground-muted: #5a6b80;
+  --border: #e1eaf4;
+  --accent: #7cc9f5;
+  --accent-strong: #0874b3;
+  --accent-muted: #e3f3fd;
+  --accent-glow: #bfe6fb;
 }
 
 @theme inline {
@@ -17,13 +24,16 @@
   --color-foreground-muted: var(--foreground-muted);
   --color-border: var(--border);
   --color-accent: var(--accent);
+  --color-accent-strong: var(--accent-strong);
   --color-accent-muted: var(--accent-muted);
+  --color-accent-glow: var(--accent-glow);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-display: var(--font-unbounded);
 }
 
 html {
-  color-scheme: dark;
+  color-scheme: light;
   scroll-behavior: smooth;
 }
 
@@ -32,9 +42,9 @@ body {
   color: var(--foreground);
 }
 
-/* Anchor jumps land below the sticky 4rem header instead of under it. */
+/* Anchor jumps land below the sticky 4.5rem header instead of under it. */
 section[id] {
-  scroll-margin-top: 4rem;
+  scroll-margin-top: 4.5rem;
 }
 
 /* Safari still draws the disclosure triangle that list-none removes elsewhere. */
@@ -42,19 +52,32 @@ summary::-webkit-details-marker {
   display: none;
 }
 
+/* Keyboard focus in the accent, not the browser default. */
+:focus-visible {
+  outline: 2px solid var(--accent-strong);
+  outline-offset: 3px;
+}
+
 ::selection {
-  background: color-mix(in srgb, var(--accent) 35%, transparent);
+  background: var(--accent-glow);
   color: var(--foreground);
 }
 
-/* Warm halo behind the hero, standing in for the grid the old design used.
-   Deliberately low-opacity so the headline stays the brightest thing on screen. */
+/* Film grain over the whole page — the paper texture that keeps pure white from feeling flat. */
+.grain {
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  pointer-events: none;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Soft blue halo behind hero and contact. */
 .bg-halo {
-  background: radial-gradient(
-    ellipse 60% 55% at 50% 0%,
-    color-mix(in srgb, var(--accent) 20%, transparent) 0%,
-    transparent 70%
-  );
+  background:
+    radial-gradient(ellipse 55% 50% at 50% 0%, color-mix(in srgb, var(--accent) 28%, transparent) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 40% at 85% 90%, color-mix(in srgb, var(--accent-glow) 45%, transparent) 0%, transparent 70%);
 }
 
 /* Uppercase tracked label that sits above every section title. */
@@ -63,19 +86,280 @@ summary::-webkit-details-marker {
   font-weight: 700;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--accent);
+  color: var(--accent-strong);
 }
 
-/* The signature move: the second half of a headline set in orange italic. */
-.accent-italic {
-  font-style: italic;
-  color: var(--accent);
+/* The signature move: the second half of a headline in a slowly travelling blue gradient. */
+.accent-gradient {
+  background: linear-gradient(
+    100deg,
+    var(--accent-strong) 0%,
+    #38b2ef 30%,
+    #9fdcfb 50%,
+    #38b2ef 70%,
+    var(--accent-strong) 100%
+  );
+  background-size: 250% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: gradient-pan 7s ease-in-out infinite;
 }
+
+@keyframes gradient-pan {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+/* Outlined display text, used for the quieter half of big headings. */
+.text-outline {
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--foreground);
+}
+
+/* ---------- Glossy floating blobs (hero + menu) ---------- */
+
+.blob {
+  position: absolute;
+  border-radius: 42% 58% 62% 38% / 45% 42% 58% 55%;
+  background:
+    radial-gradient(ellipse 16% 10% at 34% 22%, #fff 0%, rgba(255, 255, 255, 0) 100%),
+    radial-gradient(circle at 32% 28%, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 34%),
+    radial-gradient(circle at 74% 82%, rgba(8, 116, 179, 0.32) 0%, rgba(8, 116, 179, 0) 50%),
+    linear-gradient(140deg, var(--blob-a, #d2efff) 0%, var(--blob-b, #72c4f3) 52%, var(--blob-c, #aab9ff) 100%);
+  box-shadow:
+    inset -14px -20px 36px rgba(8, 116, 179, 0.28),
+    inset 10px 14px 24px rgba(255, 255, 255, 0.8),
+    0 24px 50px -28px rgba(8, 116, 179, 0.5);
+  animation:
+    blob-morph var(--morph, 16s) ease-in-out infinite,
+    blob-float var(--float, 12s) ease-in-out infinite;
+  translate: calc(var(--mx, 0) * var(--depth, 20px)) calc(var(--my, 0) * var(--depth, 20px));
+  transition: translate 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform, border-radius;
+}
+
+@keyframes blob-morph {
+  0%,
+  100% {
+    border-radius: 42% 58% 62% 38% / 45% 42% 58% 55%;
+  }
+  33% {
+    border-radius: 60% 40% 35% 65% / 55% 60% 40% 45%;
+  }
+  66% {
+    border-radius: 38% 62% 55% 45% / 38% 50% 50% 62%;
+  }
+}
+
+@keyframes blob-float {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+  50% {
+    transform: translate3d(0, -22px, 0) rotate(8deg);
+  }
+}
+
+/* ---------- Skills marquee: the pills travel and catch the light ---------- */
+
+.marquee {
+  display: flex;
+  overflow: hidden;
+  mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+}
+
+.marquee-track {
+  display: flex;
+  flex-shrink: 0;
+  gap: 0.75rem;
+  padding-right: 0.75rem;
+  min-width: max-content;
+  animation: marquee var(--duration, 40s) linear infinite;
+  animation-direction: var(--direction, normal);
+}
+
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+/* A light sheen sweeps across every pill, staggered by --shine-delay so they twinkle in turn. */
+.shine {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.shine::after {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(
+    110deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.95) 46%,
+    rgba(191, 230, 251, 0.9) 50%,
+    transparent 64%
+  );
+  transform: translateX(-120%);
+  animation: shine-sweep var(--shine-period, 6s) ease-in-out infinite;
+  animation-delay: var(--shine-delay, 0s);
+}
+
+@keyframes shine-sweep {
+  0% {
+    transform: translateX(-120%);
+  }
+  22%,
+  100% {
+    transform: translateX(120%);
+  }
+}
+
+.skill-pill {
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.9) inset,
+    0 8px 24px -14px rgba(8, 116, 179, 0.35);
+  transition:
+    box-shadow 0.35s ease,
+    transform 0.35s ease,
+    border-color 0.35s ease;
+}
+
+.skill-pill:hover {
+  transform: translateY(-3px);
+  border-color: var(--accent);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.9) inset,
+    0 0 0 4px var(--accent-muted),
+    0 14px 34px -12px rgba(56, 178, 239, 0.6);
+}
+
+/* ---------- Links & buttons ---------- */
+
+/* A wavy underline that ripples in under text links on hover. */
+.link-wave {
+  position: relative;
+  padding-bottom: 6px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='6' viewBox='0 0 20 6'%3E%3Cpath d='M0 3 Q5 0 10 3 T20 3' fill='none' stroke='%237cc9f5' stroke-width='1.6'/%3E%3C/svg%3E");
+  background-repeat: repeat-x;
+  background-position: 0 100%;
+  background-size: 0 6px;
+  transition: background-size 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.link-wave:hover,
+.link-wave:focus-visible {
+  background-size: 20px 6px;
+  animation: wave-run 0.8s linear infinite;
+}
+
+@keyframes wave-run {
+  to {
+    background-position: 20px 100%;
+  }
+}
+
+/* Primary pill: light blue, navy ink, and a sheen that crosses on hover. */
+.btn-primary {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, #a9dcfa 0%, var(--accent) 55%, #5fb8ee 100%);
+  color: var(--foreground);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.7) inset,
+    0 10px 30px -12px rgba(8, 116, 179, 0.55);
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.btn-primary::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(110deg, transparent 30%, rgba(255, 255, 255, 0.75) 50%, transparent 70%);
+  transform: translateX(-120%);
+  transition: transform 0.7s ease;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.7) inset,
+    0 16px 40px -12px rgba(8, 116, 179, 0.6);
+}
+
+.btn-primary:hover::before {
+  transform: translateX(120%);
+}
+
+/* Cards lift and pick up a faint blue rim. */
+.card-lift {
+  transition:
+    transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.4s ease,
+    border-color 0.4s ease;
+}
+
+.card-lift:hover {
+  transform: translateY(-4px);
+  border-color: color-mix(in srgb, var(--accent) 70%, var(--border));
+  box-shadow: 0 24px 60px -30px rgba(8, 116, 179, 0.35);
+}
+
+/* ---------- Cursor follower (fine pointers only, see Cursor.tsx) ---------- */
+
+.cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 80;
+  width: 34px;
+  height: 34px;
+  margin: -17px 0 0 -17px;
+  border-radius: 9999px;
+  border: 1.5px solid var(--accent);
+  background: color-mix(in srgb, var(--accent-glow) 25%, transparent);
+  pointer-events: none;
+  transition:
+    width 0.3s ease,
+    height 0.3s ease,
+    margin 0.3s ease,
+    background 0.3s ease,
+    opacity 0.3s ease;
+}
+
+.cursor-ring[data-hover="true"] {
+  width: 60px;
+  height: 60px;
+  margin: -30px 0 0 -30px;
+  background: color-mix(in srgb, var(--accent-glow) 45%, transparent);
+}
+
+/* ---------- Motion ---------- */
 
 @keyframes fade-in-up {
   from {
     opacity: 0;
-    transform: translateY(10px);
+    transform: translateY(14px);
   }
   to {
     opacity: 1;
@@ -84,7 +368,38 @@ summary::-webkit-details-marker {
 }
 
 .animate-fade-in-up {
-  animation: fade-in-up 0.6s ease-out both;
+  animation: fade-in-up 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Scroll reveal. Hidden only once the inline script has marked JS as available,
+   so the page never ships invisible content to a crawler or a no-JS reader. */
+html.js .reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+html.js .reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+@keyframes menu-in {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.menu-item {
+  animation: menu-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -92,7 +407,28 @@ summary::-webkit-details-marker {
     scroll-behavior: auto;
   }
 
-  .animate-fade-in-up {
+  .animate-fade-in-up,
+  .accent-gradient,
+  .blob,
+  .marquee-track,
+  .shine::after,
+  .menu-item {
     animation: none;
+  }
+
+  .marquee-track {
+    flex-wrap: wrap;
+    flex-shrink: 1;
+    justify-content: center;
+    min-width: 0;
+  }
+
+  .marquee-track[aria-hidden] {
+    display: none;
+  }
+
+  html.js .reveal {
+    opacity: 1;
+    transform: none;
   }
 }

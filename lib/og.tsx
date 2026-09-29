@@ -28,7 +28,7 @@ function packLines(text: string, maxChars = 34): string[] {
 
 /**
  * The preview card LinkedIn, WhatsApp and job boards show when the link is pasted.
- * Mirrors the hero: black, one orange accent, the headline as the only large text.
+ * Mirrors the hero: white, one light-blue accent, the headline as the only large text.
  */
 export function renderOgImage(locale: Locale) {
   const { site } = getContent(locale);
@@ -43,28 +43,28 @@ export function renderOgImage(locale: Locale) {
           flexDirection: "column",
           justifyContent: "space-between",
           padding: "64px 72px",
-          backgroundColor: "#070707",
-          backgroundImage: "radial-gradient(circle at 50% 0%, #3a1a05 0%, #070707 60%)",
-          color: "#f4f4f4",
+          backgroundColor: "#ffffff",
+          backgroundImage: "radial-gradient(circle at 85% 10%, #cdefff 0%, #ffffff 45%), radial-gradient(circle at 5% 100%, #e3f3fd 0%, #ffffff 40%)",
+          color: "#0b1a2c",
           fontFamily: "sans-serif",
         }}
       >
-        <div style={{ display: "flex", justifyContent: "space-between", fontSize: 26, color: "#9b9b9b" }}>
-          <div style={{ display: "flex", color: "#f4f4f4", fontWeight: 700 }}>
-            jp<span style={{ color: "#ff6a00" }}>.</span>lomba
+        <div style={{ display: "flex", justifyContent: "space-between", fontSize: 26, color: "#5a6b80" }}>
+          <div style={{ display: "flex", color: "#0b1a2c", fontWeight: 700 }}>
+            jp<span style={{ color: "#0874b3" }}>.</span>lomba
           </div>
           <div style={{ display: "flex" }}>{nbsp(site.role)}</div>
         </div>
 
         <div style={{ display: "flex", flexDirection: "column" }}>
-          <div style={{ display: "flex", fontSize: 34, color: "#9b9b9b" }}>{nbsp(shared.name)}</div>
+          <div style={{ display: "flex", fontSize: 34, color: "#5a6b80" }}>{nbsp(shared.name)}</div>
           <div style={{ display: "flex", flexWrap: "wrap", columnGap: "0.26em", fontSize: 64, lineHeight: 1.1, marginTop: 16 }}>
             {packLines(site.heroHeadlineLead).map((line) => (
               <span key={line} style={{ flexShrink: 0 }}>
                 {nbsp(line)}
               </span>
             ))}
-            <span style={{ flexShrink: 0, color: "#ff6a00" }}>{nbsp(site.heroHeadlineAccent)}</span>
+            <span style={{ flexShrink: 0, color: "#0874b3" }}>{nbsp(site.heroHeadlineAccent)}</span>
           </div>
         </div>
 
@@ -72,14 +72,14 @@ export function renderOgImage(locale: Locale) {
           style={{
             display: "flex",
             justifyContent: "space-between",
-            borderTop: "1px solid #2a2a2a",
+            borderTop: "1px solid #e1eaf4",
             paddingTop: 28,
             fontSize: 24,
-            color: "#9b9b9b",
+            color: "#5a6b80",
           }}
         >
           <div style={{ display: "flex" }}>{shared.url.replace("https://", "")}</div>
-          <div style={{ display: "flex", color: "#ffa05c" }}>{nbsp("n8n · Python · LLM agents · REST APIs")}</div>
+          <div style={{ display: "flex", color: "#0874b3" }}>{nbsp("n8n · Python · LLM agents · REST APIs")}</div>
         </div>
       </div>
     ),

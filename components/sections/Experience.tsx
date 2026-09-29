@@ -9,14 +9,16 @@ export function Experience({ content }: { content: Content }) {
   return (
     <section id="experience" className="border-b border-border py-24 sm:py-32">
       <Container>
-        <SectionHeading {...ui.experience} />
+        <div className="reveal">
+          <SectionHeading {...ui.experience} />
+        </div>
 
         <div className="space-y-12">
           {roles.map((role) => (
-            <div key={role.company} className="grid gap-4 sm:grid-cols-[11rem_1fr] sm:gap-8">
+            <div key={role.company} className="reveal grid gap-4 sm:grid-cols-[11rem_1fr] sm:gap-8">
               <div>
                 <p className="font-mono text-xs text-foreground-muted">{role.period}</p>
-                <p className="mt-1 font-semibold text-accent-muted">{role.company}</p>
+                <p className="mt-1 font-semibold text-accent-strong">{role.company}</p>
               </div>
 
               <div>
@@ -26,7 +28,7 @@ export function Experience({ content }: { content: Content }) {
                 <ul className="mt-4 space-y-2">
                   {role.bullets.map((bullet) => (
                     <li key={bullet} className="flex gap-2 text-sm leading-relaxed text-foreground">
-                      <span aria-hidden className="mt-0.5 text-accent">
+                      <span aria-hidden className="mt-0.5 text-accent-strong">
                         &rarr;
                       </span>
                       {bullet}

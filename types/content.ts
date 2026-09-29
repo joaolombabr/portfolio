@@ -9,7 +9,7 @@ export interface Site {
   metaTitle: string;
   metaDescription: string;
   heroChip: string;
-  /** Split so the second half can be set in orange italic. */
+  /** Split so the second half can be set in the blue gradient. */
   heroHeadlineLead: string;
   heroHeadlineAccent: string;
   heroSubheadline: string;
@@ -54,6 +54,10 @@ export interface Ui {
   nav: { work: string; principles: string; experience: string; stack: string; contact: string };
   /** Label of the link that switches to the *other* locale. */
   switchLocale: { label: string; ariaLabel: string };
+  /** Accessible names of the full-screen menu button. */
+  menu: { open: string; close: string };
+  /** Caption above the scrolling band of tools under the hero. */
+  toolsBand: string;
   heroPrimary: string;
   heroSecondary: string;
   /** Label of the résumé download; the file is shared.resume[locale]. */

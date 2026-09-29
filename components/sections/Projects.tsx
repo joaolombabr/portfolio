@@ -10,7 +10,9 @@ export function Projects({ content }: { content: Content }) {
   return (
     <section id="work" className="border-b border-border py-24 sm:py-32">
       <Container>
-        <SectionHeading {...ui.work} />
+        <div className="reveal">
+          <SectionHeading {...ui.work} />
+        </div>
 
         <div className="space-y-6">
           {caseStudies.map((project) => (
@@ -27,13 +29,13 @@ export function Projects({ content }: { content: Content }) {
                 href={project.repoUrl}
                 target="_blank"
                 rel="noreferrer"
-                className="group rounded-2xl border border-border bg-background-elevated p-6 transition-all hover:-translate-y-0.5 hover:border-accent/40"
+                className="reveal group rounded-2xl border border-border bg-background-elevated p-6 card-lift"
               >
                 <div className="flex items-start justify-between gap-3">
                   <h4 className="font-semibold text-foreground">{project.name}</h4>
                   <span
                     aria-hidden
-                    className="text-accent transition-transform group-hover:translate-x-0.5"
+                    className="text-accent-strong transition-transform group-hover:translate-x-0.5"
                   >
                     &#8599;
                   </span>

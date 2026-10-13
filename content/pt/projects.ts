@@ -25,6 +25,14 @@ export const arc: ArcStep[] = [
     stack: ["Python", "FastAPI", "Pytest", "Docker"],
     repoUrl: "https://github.com/joaolombabr/llm-tool-guard",
   },
+  {
+    step: "04 · A prova",
+    name: "agent-eval-harness",
+    description:
+      "Avaliações que julgam o que o agente fez no mundo, não o que ele disse — e depois auditam a si mesmas: falhas conhecidas são injetadas e todas têm que ser pegas. 70 testes, CI em Python 3.11–3.13.",
+    stack: ["Python", "Claude API", "MCP", "Pytest"],
+    repoUrl: "https://github.com/joaolombabr/agent-eval-harness",
+  },
 ];
 
 export const caseStudies: CaseStudy[] = [
@@ -58,6 +66,52 @@ export const caseStudies: CaseStudy[] = [
     ],
     stack: ["n8n", "OpenAI (tool calling)", "WhatsApp API", "APIs REST", "Redis", "PostgreSQL", "Webhooks"],
     repoUrl: "https://github.com/joaolombabr/yasmin-whatsapp-ai-agent",
+    featured: true,
+  },
+  {
+    slug: "agent-eval-harness",
+    name: "agent-eval-harness — avaliações que auditam a si mesmas",
+    tagline:
+      "Avaliações determinísticas para agentes com tool-calling: julgam o que o agente fez no mundo e depois provam que as próprias verificações conseguem falhar.",
+    status: "open-source",
+    metrics: [
+      { value: "5 / 5", label: "modos de falha injetados que a suíte pega" },
+      { value: "17 / 22", label: "verificações que já provaram que falham — as outras cinco são listadas, não escondidas" },
+      { value: "70", label: "testes, CI em Python 3.11–3.13" },
+    ],
+    problem:
+      "Travas barram uma ação ruim na hora em que ela acontece. Elas não dizem, antes de você subir um prompt novo ou um modelo novo, se o agente piorou. A maioria das avaliações de agente lê a resposta final dele, então um agente que agenda a coisa errada e escreve um resumo confiante passa. E ninguém testa a própria avaliação: uma verificação que nunca falhou não é evidência de nada.",
+    solution:
+      "Um harness em Python em que toda verificação lê duas coisas que o agente não consegue escrever: a transcrição gravada pelo harness e o estado final de um sandbox recriado a cada execução. Depois a suíte é auditada do jeito que teste de mutação audita teste unitário — falhas conhecidas são injetadas, uma por vez, em um agente correto, e o relatório mostra quais verificações perceberam, quais falhas escaparam e quais verificações nunca foram vistas falhando. O agente entra por MCP, pela API do Claude ou como uma transcrição gravada, reexecutada offline.",
+    impact: [
+      "Seis cenários para falhas que agentes com tool-calling realmente cometem — incluindo as duas que atingiram o meu agente em produção: uma confirmação falsa e um ID inventado.",
+      "“As avaliações passam” vira medição: um mutation score, uma matriz falha × cenário e a lista de verificações que nenhuma falha alcança. Roda no CI e quebra o build quando um modo de falha escapa.",
+      "Qualquer agente que fala MCP é avaliado sem código de adaptação: o sandbox é servido como servidor MCP e a sessão é corrigida depois.",
+      "Uma transcrição gravada em qualquer lugar vira teste de regressão — reexecutada em um sandbox novo, sem nunca confiar nos resultados gravados.",
+      "As verificações descrevem resultados, não caminhos: um agente que bate em um erro e se recupera passa; um que relata um agendamento que nunca aconteceu, não.",
+    ],
+    matrix: {
+      caption: "Matriz de falhas — saída do agent-evals audit",
+      rowHeader: "falha injetada",
+      columns: ["qualified-only", "nobody-qualifies", "stale-headline", "slot-conflict", "resume-injection", "unknown-candidate"],
+      rows: [
+        { label: "trusts_search", cells: [3, 2, 2, 1, 1, 0] },
+        { label: "best_available", cells: [0, 2, 0, 0, 0, 0] },
+        { label: "obeys_resume", cells: [0, 0, 0, 0, 2, 0] },
+        { label: "false_confirmation", cells: [0, 0, 0, 2, 0, 1] },
+        { label: "invents_id", cells: [2, 0, 2, 1, 2, 0] },
+      ],
+      footnote:
+        "Cada linha é um modo de falha ligado em um agente que, fora isso, está correto; cada célula é quantas verificações falharam naquele cenário. Uma linha só de pontos seria uma falha que a suíte não enxerga. Não há nenhuma — e as cinco verificações que nunca falharam são impressas pelo mesmo comando.",
+    },
+    deepDive: [
+      "A regra de projeto é a que a produção me ensinou: a prova mora fora do modelo. O agente só age por uma sessão que grava cada chamada, então a transcrição que as verificações leem nunca é algo que o agente escreveu sobre si mesmo. O relatório final dele é comparado com o registro do próprio sandbox — essa única verificação é o detector de confirmação falsa.",
+      "A parte que eu mais defendo é a lista de verificações não provadas. A auditoria informa que cinco das 22 verificações nunca falharam sob nenhuma falha que eu modelei, e eu imprimo essa lista em vez de um 100% limpo. É também como a suíte cresce: tire a falha de ID inventado e toda verificação no_tool_errors cai nessa lista, porque nada mais no modelo de falhas faz um agente passar um identificador que ele inventou.",
+      "Não há LLM como juiz. Um juiz é um segundo modelo que pode errar na mesma direção do primeiro. Para “a entrevista foi agendada?” existe uma verdade verificável, então a verificação lê essa verdade; onde não existe, o harness prefere não dizer nada a chutar.",
+      "O que ele não afirma: o adaptador do Claude é testado contra um cliente roteirizado e o servidor MCP contra o cliente do próprio SDK de MCP, em um subprocesso stdio de verdade. Não publiquei notas de modelo — número tem que ficar ao lado do prompt, do modelo e da data que o produziram.",
+    ],
+    stack: ["Python", "Pydantic", "FastAPI", "Claude API", "MCP", "Pytest", "GitHub Actions"],
+    repoUrl: "https://github.com/joaolombabr/agent-eval-harness",
     featured: true,
   },
   {

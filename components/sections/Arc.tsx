@@ -13,7 +13,7 @@ export function Arc({ content }: { content: Content }) {
           <SectionHeading {...ui.arc} />
         </div>
 
-        <ol className="grid gap-4 md:grid-cols-3">
+        <ol className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
           {arc.map((step, index) => (
             <li key={step.name} className="reveal relative" style={{ "--reveal-delay": `${index * 110}ms` } as React.CSSProperties}>
               <a
@@ -41,7 +41,7 @@ export function Arc({ content }: { content: Content }) {
               {index < arc.length - 1 ? (
                 <span
                   aria-hidden
-                  className="absolute top-1/2 -right-5 z-10 hidden size-6 -translate-y-1/2 items-center justify-center rounded-full border border-border bg-background text-xs text-accent-strong md:flex"
+                  className="absolute top-1/2 -right-5 z-10 hidden size-6 -translate-y-1/2 items-center justify-center rounded-full border border-border bg-background text-xs text-accent-strong xl:flex"
                 >
                   &rarr;
                 </span>

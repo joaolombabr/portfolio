@@ -3,7 +3,7 @@ import type { StackCategory } from "@/types/content";
 export const stack: StackCategory[] = [
   {
     label: "IA & automação",
-    items: ["n8n", "OpenAI API (tool calling)", "Claude API", "LangChain", "RAG / pgvector", "Prompt engineering", "Pipefy"],
+    items: ["n8n", "OpenAI API (tool calling)", "Claude API", "LangChain", "RAG / pgvector", "MCP", "Agent evals", "Prompt engineering", "Pipefy"],
   },
   {
     label: "Back-end & APIs",

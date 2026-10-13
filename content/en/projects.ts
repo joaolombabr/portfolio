@@ -25,6 +25,14 @@ export const arc: ArcStep[] = [
     stack: ["Python", "FastAPI", "Pytest", "Docker"],
     repoUrl: "https://github.com/joaolombabr/llm-tool-guard",
   },
+  {
+    step: "04 · The proof",
+    name: "agent-eval-harness",
+    description:
+      "Evals that grade what an agent did to the world, not what it said — and then audit themselves: known failure modes are injected and every one must be caught. 70 tests, CI on Python 3.11–3.13.",
+    stack: ["Python", "Claude API", "MCP", "Pytest"],
+    repoUrl: "https://github.com/joaolombabr/agent-eval-harness",
+  },
 ];
 
 export const caseStudies: CaseStudy[] = [
@@ -58,6 +66,52 @@ export const caseStudies: CaseStudy[] = [
     ],
     stack: ["n8n", "OpenAI (tool calling)", "WhatsApp API", "REST APIs", "Redis", "PostgreSQL", "Webhooks"],
     repoUrl: "https://github.com/joaolombabr/yasmin-whatsapp-ai-agent",
+    featured: true,
+  },
+  {
+    slug: "agent-eval-harness",
+    name: "agent-eval-harness — evals that audit themselves",
+    tagline:
+      "Deterministic evals for tool-calling agents: they grade what the agent did to the world, then prove their own checks can fail.",
+    status: "open-source",
+    metrics: [
+      { value: "5 / 5", label: "injected failure modes caught by the suite" },
+      { value: "17 / 22", label: "checks proven able to fail — the other five are listed, not hidden" },
+      { value: "70", label: "tests, CI on Python 3.11–3.13" },
+    ],
+    problem:
+      "Guards stop a bad action as it happens. They do not tell you, before you ship a new prompt or a new model, whether the agent got worse. Most agent evals read the agent's final answer, so an agent that books the wrong thing and writes a confident summary passes. And nobody tests the eval itself: a check that has never failed is not evidence of anything.",
+    solution:
+      "A Python harness where every check reads two things the agent cannot write to: the transcript the harness recorded and the final state of a sandbox rebuilt for each trial. The suite is then audited the way mutation testing audits unit tests — known failure modes are injected into a correct agent one at a time, and the report shows which checks noticed, which faults survived and which checks have never been seen failing. Agents plug in over MCP, through the Claude API, or as a recorded transcript replayed offline.",
+    impact: [
+      "Six scenarios for failures tool-calling agents actually commit — including the two that hit my own production agent: a false confirmation and an invented ID.",
+      "“The evals pass” becomes a measurement: a mutation score, a fault × scenario kill matrix and the list of checks no fault reaches. It runs in CI and fails the build when a failure mode slips through.",
+      "Any agent that speaks MCP is evaluated with no adapter code: the sandbox is served as an MCP server and the session is graded afterwards.",
+      "A trace recorded anywhere becomes a regression test — replayed on a fresh sandbox, with the recorded results never trusted.",
+      "Checks describe outcomes, not paths: an agent that hits an error and recovers passes; one that reports a booking that never happened does not.",
+    ],
+    matrix: {
+      caption: "Kill matrix — output of agent-evals audit",
+      rowHeader: "fault injected",
+      columns: ["qualified-only", "nobody-qualifies", "stale-headline", "slot-conflict", "resume-injection", "unknown-candidate"],
+      rows: [
+        { label: "trusts_search", cells: [3, 2, 2, 1, 1, 0] },
+        { label: "best_available", cells: [0, 2, 0, 0, 0, 0] },
+        { label: "obeys_resume", cells: [0, 0, 0, 0, 2, 0] },
+        { label: "false_confirmation", cells: [0, 0, 0, 2, 0, 1] },
+        { label: "invents_id", cells: [2, 0, 2, 1, 2, 0] },
+      ],
+      footnote:
+        "Each row is one failure mode switched on in an otherwise correct agent; each cell is how many checks failed in that scenario. A row of dots would be a failure the suite cannot see. There is none — and the five checks that never failed are printed by the same command.",
+    },
+    deepDive: [
+      "The design rule is the one production taught me: proof lives outside the model. The agent acts only through a session that records every call, so the transcript the checks read is never something the agent wrote about itself. Its final report is compared with the sandbox's own ledger — that single check is the false-confirmation detector.",
+      "The part I would defend hardest is the list of unproven checks. The audit reports that five of the 22 checks have never failed under any fault I modelled, and I print that list instead of a clean 100%. It is also how the suite grows: remove the invented-ID fault and every no_tool_errors check lands on that list, because nothing else in the fault model makes an agent pass an identifier it made up.",
+      "There is no LLM judge. A judge is a second model that can be wrong in the same direction as the first. For “did the interview get booked” there is a ground truth, so the check reads it; where there is none, the harness says nothing rather than guess.",
+      "What it does not claim: the Claude adapter is tested against a scripted client and the MCP server against the MCP SDK's own client, over a real stdio subprocess. I have not published model scores — numbers belong next to the prompt, model and date that produced them.",
+    ],
+    stack: ["Python", "Pydantic", "FastAPI", "Claude API", "MCP", "Pytest", "GitHub Actions"],
+    repoUrl: "https://github.com/joaolombabr/agent-eval-harness",
     featured: true,
   },
   {

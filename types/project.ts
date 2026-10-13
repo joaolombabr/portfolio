@@ -1,8 +1,17 @@
-export type ProjectStatus = "production" | "in-progress";
+export type ProjectStatus = "production" | "in-progress" | "open-source";
 
 export interface Metric {
   value: string;
   label: string;
+}
+
+/** A small fault × scenario grid; each cell is how many checks failed. Zero renders as a dot. */
+export interface KillMatrix {
+  caption: string;
+  rowHeader: string;
+  columns: string[];
+  rows: { label: string; cells: number[] }[];
+  footnote: string;
 }
 
 export interface CaseStudy {
@@ -17,6 +26,8 @@ export interface CaseStudy {
   impact: string[];
   /** Long-form paragraphs, collapsed behind "read the full story" so the card stays skimmable. */
   deepDive?: string[];
+  /** Shown under the impact list when the result is better read as a table than as prose. */
+  matrix?: KillMatrix;
   stack: string[];
   repoUrl?: string;
   liveUrl?: string;
@@ -32,7 +43,7 @@ export interface MiniProject {
   featured: false;
 }
 
-/** One step of the incident → pattern → tool sequence across the public repos. */
+/** One step of the incident → pattern → tool → proof sequence across the public repos. */
 export interface ArcStep {
   step: string;
   name: string;

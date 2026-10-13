@@ -10,15 +10,15 @@ export const ui: Ui = {
   resume: "Currículo (PDF)",
   arc: {
     eyebrow: "O fio condutor",
-    title: "Incidente → padrão → ferramenta",
+    title: "Incidente → padrão → ferramenta → prova",
     description:
-      "Três repositórios públicos que se leem em sequência: o que quebrou em produção, a regra que isso me ensinou e a ferramenta que a generaliza.",
+      "Quatro repositórios públicos que se leem em sequência: o que quebrou em produção, a regra que isso me ensinou, a ferramenta que a generaliza e as avaliações que provam isso antes do deploy.",
   },
   work: {
     eyebrow: "Estudos de caso",
     title: "Trabalho em produção",
     description:
-      "Problema de negócio, decisão de arquitetura e o que quebrou em produção — não só uma lista de tecnologias.",
+      "Problema de negócio, decisão de arquitetura e o que quebrou em produção — não só uma lista de tecnologias. Uma ferramenta open source está aqui porque saiu direto desse trabalho.",
   },
   otherProjects: "Outros projetos",
   principles: {
@@ -32,7 +32,7 @@ export const ui: Ui = {
   stack: { eyebrow: "Ferramentas", title: "Stack" },
   education: "Formação e idiomas",
   certifications: "Certificações",
-  status: { production: "Em produção", "in-progress": "Em desenvolvimento" },
+  status: { production: "Em produção", "in-progress": "Em desenvolvimento", "open-source": "Código aberto" },
   card: {
     problem: "Problema",
     solution: "Solução / arquitetura",

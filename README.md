@@ -12,7 +12,7 @@ tudo em CSS ou em componentes client pequenos, e desligado com `prefers-reduced-
 
 O conteúdo é orientado a estudos de caso — problema de negócio, decisão de arquitetura e o que
 quebrou em produção — e a página segue a ordem em que um recrutador lê: afirmação e números de
-prova, a sequência incidente → padrão → ferramenta em uma tela, depois a profundidade.
+prova, a sequência incidente → padrão → ferramenta → prova em uma tela, depois a profundidade.
 
 ## Stack
 

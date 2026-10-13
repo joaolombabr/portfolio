@@ -10,15 +10,15 @@ export const ui: Ui = {
   resume: "Résumé (PDF)",
   arc: {
     eyebrow: "The through-line",
-    title: "Incident → pattern → tool",
+    title: "Incident → pattern → tool → proof",
     description:
-      "Three public repositories that read in sequence: what broke in production, the rule it taught me, and the tool that generalises it.",
+      "Four public repositories that read in sequence: what broke in production, the rule it taught me, the tool that generalises it, and the evals that prove it before deploy.",
   },
   work: {
     eyebrow: "Case studies",
     title: "Production work",
     description:
-      "Business problem, architecture decision and what broke in production — not a list of technologies.",
+      "Business problem, architecture decision and what broke in production — not a list of technologies. One open-source tool is in here because it came straight out of that work.",
   },
   otherProjects: "Other projects",
   principles: {
@@ -32,7 +32,7 @@ export const ui: Ui = {
   stack: { eyebrow: "Tools", title: "Stack" },
   education: "Education & languages",
   certifications: "Certifications",
-  status: { production: "In production", "in-progress": "In progress" },
+  status: { production: "In production", "in-progress": "In progress", "open-source": "Open source" },
   card: {
     problem: "Problem",
     solution: "Solution / architecture",
